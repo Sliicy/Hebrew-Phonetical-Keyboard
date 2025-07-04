@@ -3,7 +3,7 @@ Hebrew Phonetical Keyboard generated from AutoHotKey 2.0
 
 For those who can't or don't want to install AutoHotKey, you can [download the binaries from here](https://github.com/Sliicy/Hebrew-Phonetical-Keyboard/releases/tag/v1) to be able to type phonetically in Hebrew on Windows.
 
-Link to original Gist: https://gist.github.com/Sliicy/61586f6a32e25e322b92a0c8855d7fb8
+Link to original Gist with full source code: https://gist.github.com/Sliicy/61586f6a32e25e322b92a0c8855d7fb8
 
 # Hebrew Typing Script Guide
 
