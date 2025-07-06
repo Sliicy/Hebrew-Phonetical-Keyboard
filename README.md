@@ -23,7 +23,7 @@ This method is for advanced users who are more comfortable with computers and wa
 2.  **Download the Script:** Download the script file named `Hebrew-Phonetical-Keyboard.ahk` from this repository's main page.
 3.  **Run the Script:** Once AutoHotkey is installed, just find the `.ahk` file you downloaded and double-click it.
 
-Just like the first option, you will see a small "H" icon appear in the bottom-right of your screen.
+Afterwards, you will see a small "H" icon appear in the bottom-right of your screen.
 
 ---
 
