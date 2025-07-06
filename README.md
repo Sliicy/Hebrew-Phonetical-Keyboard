@@ -15,6 +15,8 @@ This method gives you a ready-to-use program. No extra software is needed.
 3.  Find the file in your computer's "Downloads" folder and double-click it to run it.
 
 That's it! A small icon (a white globe on a blue circle) will appear in the bottom-right corner of your screen to show that the program is running.
+![image](https://github.com/user-attachments/assets/895f05e1-5a6c-4bb5-9297-a7b1ad473270)
+
 
 ### Option 2: Using the AutoHotkey Script
 This method is for advanced users who are more comfortable with computers and want to see the code, or who may already use the AutoHotkey program.
