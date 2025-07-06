@@ -1,13 +1,29 @@
 # Hebrew-Phonetical-Keyboard
-Hebrew Phonetical Keyboard generated from AutoHotKey 2.0
+This is a Hebrew Phonetical Keyboard script written for AutoHotKey 2.0.
 
-For those who can't or don't want to install AutoHotKey, you can [download the binaries from here](https://github.com/Sliicy/Hebrew-Phonetical-Keyboard/releases/tag/v1) to be able to type phonetically in Hebrew on Windows.
+## What is this?
+This is a free tool that lets you type Hebrew based on how the letters sound. You don't have to hunt for the letters anymore!
 
-Link to original Gist with full source code: https://gist.github.com/Sliicy/61586f6a32e25e322b92a0c8855d7fb8
+## ⚙️ How to Install
+There are two ways to get this working. The first option is the easiest and is recommended for most users.
 
-# Hebrew Typing Script Guide
+### Option 1: The Easy Way (Recommended)
+This method gives you a ready-to-use program. No extra software is needed.
 
-This document describes how to use the Hebrew typing script.
+1.  **[Click here to go to the download page.](https://github.com/Sliicy/Hebrew-Phonetical-Keyboard/releases/tag/v1)**
+2.  On that page, find the file named `Hebrew-Phonetical-Keyboard.exe` and click on it to download it (or use the 32 bit version if your computer is an older, 32-bit machine).
+3.  Find the file in your computer's "Downloads" folder and double-click it to run it.
+
+That's it! A small icon (a white globe on a blue circle) will appear in the bottom-right corner of your screen to show that the program is running.
+
+### Option 2: Using the AutoHotkey Script
+This method is for advanced users who are more comfortable with computers and want to see the code, or who may already use the AutoHotkey program.
+
+1.  **Install AutoHotkey:** If you don't have it, download and install the free helper program called **AutoHotkey v2** from [their official website](https://www.autohotkey.com/). This program is what runs the script.
+2.  **Download the Script:** Download the script file named `Hebrew-Phonetical-Keyboard.ahk` from this repository's main page.
+3.  **Run the Script:** Once AutoHotkey is installed, just find the `.ahk` file you downloaded and double-click it.
+
+Just like the first option, you will see a small "H" icon appear in the bottom-right of your screen.
 
 ---
 
