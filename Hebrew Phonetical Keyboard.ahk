@@ -125,13 +125,13 @@ SetTitleMatchMode(2)
 SendMode("Input")
 
 ; --- Global State & Configuration ---
-global comboKey := "", comboTime := 0
-global doublePressKey := "", doublePressTime := 0
-global sofitCandidate := "", sofitCandidateTime := 0
-global wordLengthCounter := 0
+global comboKey := "", comboTime := 0                ; Tracks the last key that began a combo sequence, and the time it was pressed
+global doublePressKey := "", doublePressTime := 0    ; Tracks the last key pressed for double-press detection, and its time pressed
+global sofitCandidate := "", sofitCandidateTime := 0 ; Holds a letter eligible for sofit substitution, and when it was typed
+global wordLengthCounter := 0                        ; Counts the number of letters in the current word (used for sofit logic)
 global sofitMap := Map("כ", "ך", "מ", "ם", "נ", "ן", "פ", "ף", "צ", "ץ")
-global sofitTimeout := 3000 ; in milliseconds how long to wait for changing a letter to its sofit form
-global comboTimeout := 300 ; in milliseconds how long to wait for a double-press or 2-letter combo activation
+global sofitTimeout := 3000                          ; Max time (ms) how long to wait for changing a letter to its sofit form
+global comboTimeout := 300                           ; Max time (ms) to detect valid key combos or double-presses
 
 ; ======================================================================================================================
 ; === HELPER FUNCTIONS
