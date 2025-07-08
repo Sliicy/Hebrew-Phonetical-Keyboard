@@ -40,7 +40,6 @@ Turn Caps Lock OFF to return to normal typing.
 - Letters that have a final form (כ, מ, נ, פ, צ) will automatically change to their sofit form (ך, ם, ן, ף, ץ) when you type a word-ending character (e.g., Space, Period, Comma).
 - **Important:**  
   - Only affects words with **two or more letters**.
-  - Single-letter words are **not** changed.
   - Only within **3 seconds** of typing.
 
 ---
