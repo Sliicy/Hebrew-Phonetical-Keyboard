@@ -130,7 +130,8 @@ global doublePressKey := "", doublePressTime := 0
 global sofitCandidate := "", sofitCandidateTime := 0
 global wordLengthCounter := 0
 global sofitMap := Map("כ", "ך", "מ", "ם", "נ", "ן", "פ", "ף", "צ", "ץ")
-global sofitTimeout := 3000 ; milliseconds
+global sofitTimeout := 3000 ; in milliseconds how long to wait for changing a letter to its sofit form
+global comboTimeout := 300 ; in milliseconds how long to wait for a double-press or 2-letter combo activation
 
 ; ======================================================================================================================
 ; === HELPER FUNCTIONS
@@ -173,7 +174,7 @@ SetSofitAndCombo(key, char) {
 ; If not, sends the normal character and records the time/key for the next press.
 HandleDoublePress(thisKey, singleSend, doubleSend, isLetter := true) {
     global doublePressKey, doublePressTime
-    if (doublePressKey = thisKey && (A_TickCount - doublePressTime) < 300) {
+    if (doublePressKey = thisKey && (A_TickCount - doublePressTime) < comboTimeout) {
         Send("{BS}" doubleSend)
         ResetState()
         return true
@@ -261,7 +262,7 @@ c::SetSofitAndCombo("c", "כ")
 ; --- Keys that can complete a combo sequence ---
 h::{
     global comboKey, comboTime
-    if ((comboKey = "c" || comboKey = "s") && A_TickCount - comboTime < 300) {
+    if ((comboKey = "c" || comboKey = "s") && A_TickCount - comboTime < comboTimeout) {
         Send("{BS}" (comboKey = "c" ? "ח" : "שׁ"))
         ResetState()
     } else {
@@ -270,7 +271,7 @@ h::{
 }
 z::{
     global comboKey, comboTime
-    if (comboKey = "t" && A_TickCount - comboTime < 300) {
+    if (comboKey = "t" && A_TickCount - comboTime < comboTimeout) {
         Send("{BS}")
         SetSofitCandidate("צ")
     } else {
@@ -279,7 +280,7 @@ z::{
 }
 s::{
     global comboKey, comboTime
-    if (comboKey = "t" && A_TickCount - comboTime < 300) {
+    if (comboKey = "t" && A_TickCount - comboTime < comboTimeout) {
         Send("{BS}")
         SetSofitCandidate("צ")
     } else if !HandleDoublePress("s", "ש", "ס") {
