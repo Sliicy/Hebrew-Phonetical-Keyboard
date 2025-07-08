@@ -36,7 +36,7 @@
 ;     -   **IMPORTANT**: This only happens for words with TWO OR MORE letters.
 ;         Single-letter words will not be changed. And only within 3 seconds of typing.
 ;     -   Example: Type `m-l-k` followed by `Space` -> `מלך `.
-;       Type `s-l-v-m` followed by `Space` -> `שלום`.
+;       Type `s-l-v-m` followed by `Space` -> `שלום `.
 ;
 ; 3.  **LETTER COMBINATIONS (COMBOS)**: Some Hebrew letters are formed by typing two
 ;     keys in a row.
