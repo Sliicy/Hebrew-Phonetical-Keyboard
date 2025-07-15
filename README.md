@@ -33,6 +33,13 @@ Afterwards, you will see a small "H" icon appear in the bottom-right of your scr
 This script is **ONLY active when Caps Lock is ON**.  
 Turn Caps Lock OFF to return to normal typing.
 
+It does not run when the computer starts up, but this can be turned on by creating a shortcut to the downloaded program within:
+
+`%AppData%\Microsoft\Windows\Start Menu\Programs\Startup\`
+
+<img width="629" height="151" alt="image" src="https://github.com/user-attachments/assets/3ae6debe-c837-43a2-8c0e-be13a0dd028a" />
+
+
 ---
 
 ## ✨ Automatic Final Forms (Sofit)
