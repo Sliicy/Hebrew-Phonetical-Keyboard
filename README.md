@@ -76,6 +76,28 @@ Hold `Shift` to manually type final-form letters:
 
 ---
 
+## 🚀 Quick Translation
+
+This script includes a powerful shortcut to quickly translate selected text using ChatGPT.
+
+To use it, **press the letter `t` three times in a row (`ttt`) quickly**. This works **only when Caps Lock is off**.
+
+Here's what it does automatically:
+1.  Copies any text you have currently highlighted (`Ctrl` + `C`).
+2.  Opens a new tab in your browser (`Ctrl` + `T`).
+3.  Navigates to `https://chatgpt.com/?temporary-chat=true`.
+4.  Waits 3 seconds for the page to load.
+5.  Types the prompt: `translate to english: `
+6.  Pastes your copied text (`Ctrl` + `V`).
+7.  Presses `Enter` to submit the translation.
+
+**How to Use:**
+1. Highlight any text you want to translate (e.g., a Hebrew word like `שלום`).
+2. Quickly press `ttt`.
+3. The script will handle the rest!
+
+---
+
 ## 🗝️ Key Mapping Reference
 
 Below is the complete reference table.
