@@ -10,7 +10,7 @@ There are two ways to get this working. The first option is the easiest and is r
 ### Option 1: The Easy Way (Recommended)
 This method gives you a ready-to-use program. No extra software is needed.
 
-1.  **[Click here to go to the download page.](https://github.com/Sliicy/Hebrew-Phonetical-Keyboard/releases/tag/v1)**
+1.  **[Click here to go to the download page.](https://github.com/Sliicy/Hebrew-Phonetical-Keyboard/releases/latest)**
 2.  On that page, find the file named `Hebrew-Phonetical-Keyboard.exe` and click on it to download it (or use the 32 bit version if your computer is an older, 32-bit machine).
 3.  Find the file in your computer's "Downloads" folder and double-click it to run it.
 
