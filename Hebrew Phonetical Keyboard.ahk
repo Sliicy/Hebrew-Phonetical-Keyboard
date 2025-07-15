@@ -328,58 +328,37 @@ $+>::CheckAndApplySofit(">")
 ; ###################################################################################
 ; ###                            TRIPLE 'T' TRANSLATE                             ###
 ; ###################################################################################
-; Press 't' three times quickly to trigger the action.
-~t::
+; Press 't' three times quickly, with no other keys in between, to trigger the action.
+; Options:
+; :?*  -> : (action hotstring), ? (triggers anywhere), * (no ending char needed)
+:?*:ttt::
 {
-    static presses := 0
-    static lastPressTime := 0
+    ; Save the user's current clipboard content to restore it later.
+    originalClipboard := A_Clipboard
+    A_Clipboard := "" ; Clear the clipboard to ensure ClipWait works reliably.
 
-    ; If more than 400ms have passed since the last press of 't', reset the count.
-    ; This means we're starting a new sequence.
-    if (A_TickCount - lastPressTime > 400) {
-        presses := 1
-    } else {
-        presses++
-    }
+    Send("^c") ; Send the copy command.
     
-    ; Update the time of the last press to now.
-    lastPressTime := A_TickCount
-
-    ; If we have reached exactly 3 presses, execute the action.
-    if (presses = 3)
+    ; Wait up to 1 second for the clipboard to contain new data.
+    if ClipWait(1)
     {
-        presses := 0 ; Reset the counter for the next use.
-        
-        Send("{BS 3}") ; Erase the 'ttt' that was just typed.
+        ; If Copy was successful, proceed with the automation.
+        Send("^t") ; Open new tab.
+        Sleep(200) ; Brief pause to let the new tab become active.
+        SendText("https://chatgpt.com/?temporary-chat=true")
+        Send("{Enter}")
+        Sleep(3000) ; Wait 3 seconds for the page to load as requested.
+        SendText("Translate to English: ")
+        Send("^v") ; Paste the text that was copied.
+        Send("{Enter}")
 
-        ; It's good practice to save the user's clipboard and restore it later.
-        originalClipboard := A_Clipboard
-        A_Clipboard := "" ; Clear the clipboard to make ClipWait reliable.
-
-        Send("^c") ; Send the copy command.
-        
-        ; Wait up to 1 second for the clipboard to contain data.
-        if ClipWait(1)
-        {
-            ; If Copy was successful, proceed.
-            Send("^t") ; Open new tab.
-            Sleep(200) ; Brief pause to let the new tab become active.
-            SendText("https://chatgpt.com/?temporary-chat=true")
-            Send("{Enter}")
-            Sleep(3000) ; Wait 3 seconds for the page to load as requested.
-            SendText("Translate to English: ")
-            Send("^v") ; Paste the text that was copied.
-            Send("{Enter}")
-
-            ; After a short moment, restore the user's original clipboard content.
-            Sleep(500)
-            A_Clipboard := originalClipboard
-        }
-        else
-        {
-            ; If Copy failed (e.g., no text was selected),
-            ; restore the original clipboard and stop.
-            A_Clipboard := originalClipboard
-        }
+        ; After a moment, restore the original clipboard.
+        Sleep(500)
+        A_Clipboard := originalClipboard
+    }
+    else
+    {
+        ; If copying failed (e.g., no text was selected), just restore the clipboard.
+        A_Clipboard := originalClipboard
     }
 }
