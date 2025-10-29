@@ -178,3 +178,7 @@ Below is the complete reference table.
 | **Gershayim (״)**           | `"` (quote)                               |
 
 ---
+
+### Hebrew Phonetical Keyboard on Apple Mac
+There already exists a built-in option on macOS to use phonetics for typing:
+<img width="550" height="617" alt="Screenshot 2025-10-29 at 2 01 45 PM" src="https://github.com/user-attachments/assets/401ae954-b512-409b-99da-269a26d88d38" />
