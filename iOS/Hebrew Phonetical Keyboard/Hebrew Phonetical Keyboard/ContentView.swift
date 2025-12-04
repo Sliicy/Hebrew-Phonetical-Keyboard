@@ -4,20 +4,33 @@ struct ContentView: View {
     let defaults = UserDefaults(suiteName: "group.com.sliicy.hebrewkeyboard")
     
     @State private var isStandardLayout: Bool = false
+    @State private var showCantillation: Bool = false
+    @State private var showWideLetters: Bool = false
     @State private var testText: String = ""
     
-    // 1. Add Focus State
     @FocusState private var isInputActive: Bool
     
     var body: some View {
         NavigationView {
             Form {
-                Section(header: Text("Keyboard Type")) {
+                Section(header: Text("Keyboard Settings")) {
+                    // Standard Layout Toggle
                     Toggle("Use Standard Hebrew Layout", isOn: $isStandardLayout)
                         .onChange(of: isStandardLayout) { val in
                             defaults?.set(val, forKey: "useStandardLayout")
-                            // If keyboard is open, close it, wait 0.1s, then reopen it to force refresh
-                            if isInputActive { isInputActive = false; DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { isInputActive = true } }
+                            refreshKeyboard()
+                        }
+                    
+                    // Cantillation Toggle
+                    Toggle("Show Cantillation (Trop)", isOn: $showCantillation)
+                        .onChange(of: showCantillation) { val in
+                            defaults?.set(val, forKey: "showCantillation")
+                            refreshKeyboard()
+                        }
+                    Toggle("Show Wide Letters", isOn: $showWideLetters)
+                        .onChange(of: showWideLetters) { val in
+                            defaults?.set(val, forKey: "showWideLetters")
+                            refreshKeyboard()
                         }
                 }
                 
@@ -33,9 +46,8 @@ struct ContentView: View {
                                 .stroke(Color.gray.opacity(0.3), lineWidth: 1)
                         )
                         .environment(\.layoutDirection, .rightToLeft)
-                        // 3. Bind to Focus State
-                        .focused($isInputActive)
                         .multilineTextAlignment(.leading)
+                        .focused($isInputActive)
                 }
                 
                 Section(header: Text("Installation")) {
@@ -56,6 +68,16 @@ struct ContentView: View {
         .navigationViewStyle(StackNavigationViewStyle())
         .onAppear {
             isStandardLayout = defaults?.bool(forKey: "useStandardLayout") ?? false
+            showCantillation = defaults?.bool(forKey: "showCantillation") ?? false
+        }
+    }
+    
+    func refreshKeyboard() {
+        if isInputActive {
+            isInputActive = false
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                isInputActive = true
+            }
         }
     }
 }

@@ -3,6 +3,9 @@ import Combine
 
 class SettingsStore: ObservableObject {
     @Published var useStandardLayout: Bool = false
+    @Published var showCantillation: Bool = false
+    @Published var showWideLetters: Bool = false
+    
     private let suiteName = "group.com.sliicy.hebrewkeyboard"
     
     init() {
@@ -10,7 +13,10 @@ class SettingsStore: ObservableObject {
     }
     
     func reload() {
-        self.useStandardLayout = UserDefaults(suiteName: suiteName)?.bool(forKey: "useStandardLayout") ?? false
+        let defaults = UserDefaults(suiteName: suiteName)
+        self.useStandardLayout = defaults?.bool(forKey: "useStandardLayout") ?? false
+        self.showCantillation = defaults?.bool(forKey: "showCantillation") ?? false
+        self.showWideLetters = defaults?.bool(forKey: "showWideLetters") ?? false
     }
 }
 
@@ -30,7 +36,7 @@ class KeyboardData {
     }
     
     // MARK: - Key Logic
-    static func key(_ label: String, inputOverride: String? = nil, isPhonetic: Bool) -> KeyDefinition {
+    static func key(_ label: String, inputOverride: String? = nil, isPhonetic: Bool, showTrop: Bool, showWideLetters: Bool) -> KeyDefinition {
         var alts: [KeyAlternate] = []
         
         switch label {
@@ -52,12 +58,11 @@ class KeyboardData {
             alts = [vowel("\u{05BF}")]
             
         case "ת":
-            // REMOVED Geresh. Added Dagesh.
             alts = [full("ת", "\u{05BC}")]
             
         case "י":
             // Chirik, Double Yud, Double Yud Patach
-            alts = [vowel("\u{05B4}"), char("ײ"), char("ײַ")]
+            alts = [vowel("\u{05B4}"), char("ײ"), char("ײַ"), char("יִ"), char("ױ"), char("ׯ")]
             
         case "פּ":
             alts = [vowel("\u{05B7}"), vowel("\u{05B2}"), char("פ")];
@@ -111,7 +116,7 @@ class KeyboardData {
             
         case "ו":
             // Cholam, Shuruk Dot, Kubutz
-            alts = [vowel("\u{05B9}"), vowel("\u{05BC}"), vowel("\u{05BB}")]
+            alts = [vowel("\u{05B9}"), vowel("\u{05BC}"), vowel("\u{05BB}"), char("װ"), char("ױ")]
             
         case "ב":
             alts = [full("ב", "\u{05BC}")]
@@ -139,28 +144,84 @@ class KeyboardData {
             break
         }
         
+        // --- Cantillation (Trop) Additions ---
+        if showTrop {
+            switch label {
+            case "פ", "פּ": alts.append(contentsOf: [vowel("\u{0599}"), vowel("\u{059F}"), vowel("\u{05A1}"), char("׀")]) // Pashta, Pazeir, Pasek
+            case "ק": alts.append(contentsOf: [vowel("\u{05A8}"), vowel("\u{059F}"), vowel("\u{05C7}")]) // Kadmah, Karne Para, Kamatz Katan
+            case "מ": alts.append(contentsOf: [vowel("\u{05A3}"), vowel("\u{05A4}"), vowel("\u{05A5}"), vowel("\u{05A6}"), vowel("\u{05BE}")]) // MunachMahpach, Meircha, Mercha Kefulah, Maqaf
+            case "ז": alts.append(contentsOf: [vowel("\u{05AE}"), vowel("\u{0594}"), vowel("\u{0595}")]) // Zarka, Zakeif Katan, ZakeiGadol
+            case "ס": alts.append(contentsOf: [vowel("\u{0592}"), char("׃")]) // Segolta, Sof Pasuk
+            case "ר": alts.append(contentsOf: [vowel("\u{0597}")]) // Rivia
+            case "ט": alts.append(contentsOf: [vowel("\u{0596}")]) // Tipcha
+            case "א": alts.append(contentsOf: [vowel("\u{0591}"), vowel("\u{05A2}"), vowel("\u{05AF}")]) // Etnachta, Atnah Hafukh, Masora Circle
+            case "ת": alts.append(contentsOf: [vowel("\u{05A9}"), vowel("\u{05A0}"), vowel("\u{059B}")]) // Telisha Ketana, TelishGedola, Tevir
+            case "ג": alts.append(contentsOf: [vowel("\u{059C}"), vowel("\u{059E}")]) // Geresh, Gershayim
+            case "ד": alts.append(contentsOf: [vowel("\u{05A7}"), vowel("\u{05AD}")]) // Darga, Dehi
+            case "י": alts.append(contentsOf: [vowel("\u{059A}"), vowel("\u{05AA}")]) // Yetiv, Yerach Ben Yomo
+            case "ש": alts.append(contentsOf: [vowel("\u{0593}")]) // Shalshelet
+            case "ע": alts.append(contentsOf: [vowel("\u{05AC}")]) // Illuy
+            case "צ": alts.append(contentsOf: [vowel("\u{0598}")]) // Tsinnorit
+            case "-": alts.append(contentsOf: [char("׃"), char("׀"), vowel("\u{05BE}")]) // Sof Pasuk on dash
+            case "ו": alts.append(contentsOf: [vowel("\u{FB1E}")]) // Hebrew Point Judeo-Spanish Varika
+            default: break
+            }
+        }
+        if isPhonetic && showWideLetters {
+            switch label {
+                case "מ":
+                    alts.append(char("ﬦ"))
+                default:
+                    break
+            }
+        }
+        if showWideLetters {
+            switch label {
+            case "א":
+                alts.append(char("ﬡ"))
+            case "ד":
+                alts.append(char("ﬢ"))
+            case "ה":
+                alts.append(char("ﬣ"))
+            case "כ":
+                alts.append(char("ﬤ"))
+            case "ל":
+                alts.append(char("ﬥ"))
+            case "ם":
+                alts.append(char("ﬦ"))
+            case "ר":
+                alts.append(char("ﬧ"))
+            case "ע":
+                alts.append(char("ﬠ"))
+            case "ת":
+                alts.append(char("ﬨ"))
+            default:
+                break
+            }
+        }
+
         return KeyDefinition(label, input: inputOverride ?? label, alternates: alts)
     }
 
     // --- Layout Generation ---
-    static func getRows(useStandard: Bool) -> ([KeyDefinition], [KeyDefinition], [KeyDefinition], [KeyDefinition]) {
+    static func getRows(useStandard: Bool, showTrop: Bool, showWideLetters: Bool) -> ([KeyDefinition], [KeyDefinition], [KeyDefinition], [KeyDefinition]) {
         // Number Row is constant
-        let nums = ["1","2","3","4","5","6","7","8","9","0"].map { key($0, isPhonetic: false) }
+        let nums = ["1","2","3","4","5","6","7","8","9","0"].map { key($0, isPhonetic: false, showTrop: showTrop, showWideLetters: showWideLetters) }
         
         if useStandard {
             return (
-                nums,
-                [key("'", isPhonetic: false), key("-", isPhonetic: false), key("ק", isPhonetic: false), key("ר", isPhonetic: false), key("א", isPhonetic: false), key("ט", isPhonetic: false), key("ו", isPhonetic: false), key("ן", isPhonetic: false), key("ם", isPhonetic: false), key("פ", isPhonetic: false)],
-                [key("ש", isPhonetic: false), key("ד", isPhonetic: false), key("ג", isPhonetic: false), key("כ", isPhonetic: false), key("ע", isPhonetic: false), key("י", isPhonetic: false), key("ח", isPhonetic: false), key("ל", isPhonetic: false), key("ך", isPhonetic: false), key("ף", isPhonetic: false)],
-                [key("ז", isPhonetic: false), key("ס", isPhonetic: false), key("ב", isPhonetic: false), key("ה", isPhonetic: false), key("נ", isPhonetic: false), key("מ", isPhonetic: false), key("צ", isPhonetic: false), key("ת", isPhonetic: false), key("ץ", isPhonetic: false)]
-            )
+                            nums,
+                            [key("'", isPhonetic: false, showTrop: showTrop, showWideLetters: showWideLetters), key("-", isPhonetic: false, showTrop: showTrop, showWideLetters: showWideLetters), key("ק", isPhonetic: false, showTrop: showTrop, showWideLetters: showWideLetters), key("ר", isPhonetic: false, showTrop: showTrop, showWideLetters: showWideLetters), key("א", isPhonetic: false, showTrop: showTrop, showWideLetters: showWideLetters), key("ט", isPhonetic: false, showTrop: showTrop, showWideLetters: showWideLetters), key("ו", isPhonetic: false, showTrop: showTrop, showWideLetters: showWideLetters), key("ן", isPhonetic: false, showTrop: showTrop, showWideLetters: showWideLetters), key("ם", isPhonetic: false, showTrop: showTrop, showWideLetters: showWideLetters), key("פ", isPhonetic: false, showTrop: showTrop, showWideLetters: showWideLetters)],
+                            [key("ש", isPhonetic: false, showTrop: showTrop, showWideLetters: showWideLetters), key("ד", isPhonetic: false, showTrop: showTrop, showWideLetters: showWideLetters), key("ג", isPhonetic: false, showTrop: showTrop, showWideLetters: showWideLetters), key("כ", isPhonetic: false, showTrop: showTrop, showWideLetters: showWideLetters), key("ע", isPhonetic: false, showTrop: showTrop, showWideLetters: showWideLetters), key("י", isPhonetic: false, showTrop: showTrop, showWideLetters: showWideLetters), key("ח", isPhonetic: false, showTrop: showTrop, showWideLetters: showWideLetters), key("ל", isPhonetic: false, showTrop: showTrop, showWideLetters: showWideLetters), key("ך", isPhonetic: false, showTrop: showTrop, showWideLetters: showWideLetters), key("ף", isPhonetic: false, showTrop: showTrop, showWideLetters: showWideLetters)],
+                            [key("ז", isPhonetic: false, showTrop: showTrop, showWideLetters: showWideLetters), key("ס", isPhonetic: false, showTrop: showTrop, showWideLetters: showWideLetters), key("ב", isPhonetic: false, showTrop: showTrop, showWideLetters: showWideLetters), key("ה", isPhonetic: false, showTrop: showTrop, showWideLetters: showWideLetters), key("נ", isPhonetic: false, showTrop: showTrop, showWideLetters: showWideLetters), key("מ", isPhonetic: false, showTrop: showTrop, showWideLetters: showWideLetters), key("צ", isPhonetic: false, showTrop: showTrop, showWideLetters: showWideLetters), key("ת", isPhonetic: false, showTrop: showTrop, showWideLetters: showWideLetters), key("ץ", isPhonetic: false, showTrop: showTrop, showWideLetters: showWideLetters)]
+                        )
         } else {
             return (
-                nums,
-                [key("ק", isPhonetic: true), key("ר", isPhonetic: true), key("ת", isPhonetic: true), key("ט", isPhonetic: true), key("י", isPhonetic: true), key("וּ", isPhonetic: true), key("וֹ", isPhonetic: true), key("פּ", isPhonetic: true)],
-                [key("א", isPhonetic: true), key("ע", isPhonetic: true), key("ש", isPhonetic: true), key("ס", isPhonetic: true), key("ד", isPhonetic: true), key("פ", isPhonetic: true), key("ג", isPhonetic: true), key("ה", isPhonetic: true), key("י", isPhonetic: true), key("כּ", isPhonetic: true), key("ל", isPhonetic: true)],
-                [key("ז", isPhonetic: true), key("צ", isPhonetic: true), key("ח", isPhonetic: true), key("כ", isPhonetic: true), key("ו", isPhonetic: true), key("ב", isPhonetic: true), key("נ", isPhonetic: true), key("מ", isPhonetic: true)]
-            )
+                            nums,
+                            [key("ק", isPhonetic: true, showTrop: showTrop, showWideLetters: showWideLetters), key("ר", isPhonetic: true, showTrop: showTrop, showWideLetters: showWideLetters), key("ת", isPhonetic: true, showTrop: showTrop, showWideLetters: showWideLetters), key("ט", isPhonetic: true, showTrop: showTrop, showWideLetters: showWideLetters), key("י", isPhonetic: true, showTrop: showTrop, showWideLetters: showWideLetters), key("וּ", isPhonetic: true, showTrop: showTrop, showWideLetters: showWideLetters), key("וֹ", isPhonetic: true, showTrop: showTrop, showWideLetters: showWideLetters), key("פּ", isPhonetic: true, showTrop: showTrop, showWideLetters: showWideLetters)],
+                            [key("א", isPhonetic: true, showTrop: showTrop, showWideLetters: showWideLetters), key("ע", isPhonetic: true, showTrop: showTrop, showWideLetters: showWideLetters), key("ש", isPhonetic: true, showTrop: showTrop, showWideLetters: showWideLetters), key("ס", isPhonetic: true, showTrop: showTrop, showWideLetters: showWideLetters), key("ד", isPhonetic: true, showTrop: showTrop, showWideLetters: showWideLetters), key("פ", isPhonetic: true, showTrop: showTrop, showWideLetters: showWideLetters), key("ג", isPhonetic: true, showTrop: showTrop, showWideLetters: showWideLetters), key("ה", isPhonetic: true, showTrop: showTrop, showWideLetters: showWideLetters), key("י", isPhonetic: true, showTrop: showTrop, showWideLetters: showWideLetters), key("כּ", isPhonetic: true, showTrop: showTrop, showWideLetters: showWideLetters), key("ל", isPhonetic: true, showTrop: showTrop, showWideLetters: showWideLetters)],
+                            [key("ז", isPhonetic: true, showTrop: showTrop, showWideLetters: showWideLetters), key("צ", isPhonetic: true, showTrop: showTrop, showWideLetters: showWideLetters), key("ח", isPhonetic: true, showTrop: showTrop, showWideLetters: showWideLetters), key("כ", isPhonetic: true, showTrop: showTrop, showWideLetters: showWideLetters), key("ו", isPhonetic: true, showTrop: showTrop, showWideLetters: showWideLetters), key("ב", isPhonetic: true, showTrop: showTrop, showWideLetters: showWideLetters), key("נ", isPhonetic: true, showTrop: showTrop, showWideLetters: showWideLetters), key("מ", isPhonetic: true, showTrop: showTrop, showWideLetters: showWideLetters)]
+                        )
         }
     }
 }

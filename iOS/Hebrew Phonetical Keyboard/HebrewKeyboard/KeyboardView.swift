@@ -10,7 +10,7 @@ struct KeyboardView: View {
     @Environment(\.colorScheme) var colorScheme // Detect Dark Mode
     
     var body: some View {
-        let rows = KeyboardData.getRows(useStandard: settings.useStandardLayout)
+        let rows = KeyboardData.getRows(useStandard: settings.useStandardLayout, showTrop: settings.showCantillation, showWideLetters: settings.showWideLetters)
         
         // Dynamic Colors
         let bgColor = colorScheme == .dark ? Color(UIColor.systemGray6) : Color(red: 209/255, green: 213/255, blue: 219/255)
