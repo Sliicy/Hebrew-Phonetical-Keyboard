@@ -256,7 +256,7 @@ p::SetSofitCandidate("פ")
 x::SetSofitCandidate("צ")
 
 ; --- Keys that can start a combo sequence ---
-t::SetSofitAndCombo("t", "ת")
+t::(HandleDoublePress("t", "ת", "ט") ? "" : (comboKey := "t", comboTime := A_TickCount))
 c::SetSofitAndCombo("c", "כ")
 
 ; --- Keys that can complete a combo sequence ---
