@@ -149,7 +149,7 @@ class KeyboardData {
             switch label {
             case "פ", "פּ": alts.append(contentsOf: [vowel("\u{0599}"), vowel("\u{059F}"), vowel("\u{05A1}"), char("׀")]) // Pashta, Pazeir, Pasek
             case "ק": alts.append(contentsOf: [vowel("\u{05A8}"), vowel("\u{059F}"), vowel("\u{05C7}")]) // Kadmah, Karne Para, Kamatz Katan
-            case "מ": alts.append(contentsOf: [vowel("\u{05A3}"), vowel("\u{05A4}"), vowel("\u{05A5}"), vowel("\u{05A6}"), vowel("\u{05BE}")]) // MunachMahpach, Meircha, Mercha Kefulah, Maqaf
+            case "מ": alts.append(contentsOf: [vowel("\u{05A3}"), vowel("\u{05A4}"), vowel("\u{05A5}"), vowel("\u{05A6}"), vowel("\u{05BE}")]) // Munach Mahpach, Meircha, Mercha Kefulah, Maqaf
             case "ז": alts.append(contentsOf: [vowel("\u{05AE}"), vowel("\u{0594}"), vowel("\u{0595}")]) // Zarka, Zakeif Katan, ZakeiGadol
             case "ס": alts.append(contentsOf: [vowel("\u{0592}"), char("׃")]) // Segolta, Sof Pasuk
             case "ר": alts.append(contentsOf: [vowel("\u{0597}")]) // Rivia

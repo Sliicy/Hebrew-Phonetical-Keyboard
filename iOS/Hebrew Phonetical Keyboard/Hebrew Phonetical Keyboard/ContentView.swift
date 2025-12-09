@@ -16,20 +16,20 @@ struct ContentView: View {
                 Section(header: Text("Keyboard Settings")) {
                     // Standard Layout Toggle
                     Toggle("Use Standard Hebrew Layout", isOn: $isStandardLayout)
-                        .onChange(of: isStandardLayout) { val in
-                            defaults?.set(val, forKey: "useStandardLayout")
+                        .onChange(of: isStandardLayout) { _, newValue in
+                            defaults?.set(newValue, forKey: "useStandardLayout")
                             refreshKeyboard()
                         }
                     
                     // Cantillation Toggle
                     Toggle("Show Cantillation (Trop)", isOn: $showCantillation)
-                        .onChange(of: showCantillation) { val in
-                            defaults?.set(val, forKey: "showCantillation")
+                        .onChange(of: showCantillation) { _, newValue in
+                            defaults?.set(newValue, forKey: "showCantillation")
                             refreshKeyboard()
                         }
                     Toggle("Show Wide Letters", isOn: $showWideLetters)
-                        .onChange(of: showWideLetters) { val in
-                            defaults?.set(val, forKey: "showWideLetters")
+                        .onChange(of: showWideLetters) { _, newValue in
+                            defaults?.set(newValue, forKey: "showWideLetters")
                             refreshKeyboard()
                         }
                 }
@@ -81,3 +81,4 @@ struct ContentView: View {
         }
     }
 }
+
